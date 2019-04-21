@@ -37,6 +37,7 @@ function Dice(diceChars, xPos, yPos) {
   this.face5 = new DieFace(diceChars[5]);
   this.pos = { x: xPos, y: yPos };
   this.chosen = false;
+  this.shownFace = 0;
 }
 
 Dice.prototype.draw = function draw(faceNumber) {
@@ -88,7 +89,7 @@ function DiceBoard(allDiceFaces) {
 DiceBoard.prototype.draw = function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < this.diceArr.length; i += 1) {
-    this.diceArr[i].draw(5);
+    this.diceArr[i].draw(this.diceArr[i].shownFace);
   }
 };
 
@@ -101,6 +102,10 @@ DiceBoard.prototype.randomize = function randomize() {
     x = this.diceArr[i].pos;
     this.diceArr[i].pos = this.diceArr[j].pos;
     this.diceArr[j].pos = x;
+  }
+  for (i = 0; i < this.diceArr.length; i += 1) {
+    j = Math.floor(Math.random() * 6);
+    this.diceArr[i].shownFace = j;
   }
 };
 
